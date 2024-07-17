@@ -2,9 +2,9 @@
 
 Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-ids`.
 
-![image](https://gist.github.com/user-attachments/assets/1203c55d-2e1e-45d8-8f2b-fe086a52895a)
+![image](https://github.com/user-attachments/assets/040fbea0-4364-4f3a-9229-e1602571e928)
 
-![image](https://gist.github.com/user-attachments/assets/b0ec765c-acd8-4577-9c26-efde61d688e6)
+![image](https://github.com/user-attachments/assets/e900c274-96ff-45ca-915b-552a61e4500c)
 
 ## Features
 
