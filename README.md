@@ -1,18 +1,19 @@
-# Obsidian Sample Plugin
+# Blockreffer for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-ids`.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+![image](https://gist.github.com/user-attachments/assets/1203c55d-2e1e-45d8-8f2b-fe086a52895a)
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+![image](https://gist.github.com/user-attachments/assets/b0ec765c-acd8-4577-9c26-efde61d688e6)
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+## Features
+
+- Embed blocks with `^block-refs`
+- Search your vault for blocks with `^block-refs`
+
+---
+
+# Contributing
 
 ## First time developing plugins?
 
