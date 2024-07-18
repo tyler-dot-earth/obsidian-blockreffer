@@ -18,7 +18,7 @@ Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-i
 Use [BRAT](https://tfthacker.com/BRAT) to install this plugin for now:
 1. Install BRAT
 	- Search for "BRAT" in Obsidian's community plugins
-	- ... or click this link: [obsidian://show-plugin?id=obsidian42-brat](obsidian://show-plugin?id=obsidian42-brat)
+	- This may also work for you: [obsidian://show-plugin?id=obsidian42-brat](obsidian://show-plugin?id=obsidian42-brat)
 1. Enable BRAT after installation
 1. Open BRAT settings
 1. Click "Add Beta plugin"
