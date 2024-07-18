@@ -1,0 +1,10 @@
+{
+	"id": "blockreffer",
+	"name": "Blockreffer",
+	"version": "1.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "Search and embed blocks with ^block-references (aka ^block-ids)",
+	"author": "tyler-dot-earth",
+	"authorUrl": "https://tyler.earth/",
+	"isDesktopOnly": false
+}
