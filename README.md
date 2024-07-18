@@ -11,6 +11,32 @@ Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-i
 - Embed blocks with `^block-refs`
 - Search your vault for blocks with `^block-refs`
 
+## Installation
+
+:information_source: Plugin is not yet published to the community plugin list.
+
+Use [BRAT](https://tfthacker.com/BRAT) to install this plugin for now:
+1. Install BRAT
+	- Search for "BRAT" in Obsidian's community plugins
+	- ... or click this link: [obsidian://show-plugin?id=obsidian42-brat](obsidian://show-plugin?id=obsidian42-brat)
+1. Enable BRAT after installation
+1. Open BRAT settings
+1. Click "Add Beta plugin"
+1. Paste this into the repository field: `https://github.com/tyler-dot-earth/obsidian-blockreffer`
+1. Click "Add plugin"
+1. :sparkles: The plugin should now be installed.
+	- NOTE: this will automatically update and use the latest beta version of the plugin.
+
+## FAQ
+
+### What are block references?
+
+Check out the Obsidian docs: https://help.obsidian.md/Linking+notes+and+files/Internal+links#Link+to+a+block+in+a+note
+
+### Can I assign hotkeys to this plugin's commands?
+
+Yes. Use the `Hotkeys` (core Obsidian plugin) to assign hotkeys to this plugin's commands.
+
 ---
 
 # Contributing
@@ -19,8 +45,6 @@ Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-i
 
 Quick starting guide for new plugin devs:
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
 - Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
 - Install NodeJS, then run `npm i` in the command line under your repo folder.
 - Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
