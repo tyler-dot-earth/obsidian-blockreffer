@@ -169,7 +169,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
 				// Embed the block using the ref
-				editor.replaceSelection(`![[${item.file.name}#^${item.id}]]`);
+				editor.replaceSelection(`![[${item.file.basename}#^${item.id}]]`);
 			}
 		}
 

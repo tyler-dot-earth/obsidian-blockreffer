@@ -1,6 +1,6 @@
 {
 	"name": "Blockreffer",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Search and embed blocks with ^block-references (aka ^block-ids)",
 	"main": "main.js",
 	"scripts": {
