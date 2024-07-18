@@ -146,6 +146,20 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		this.plugin = plugin;
 		this.blocks = blocks;
 		this.action = action;
+		this.setPlaceholder("Search for ^referenced blocks...");
+		this.limit = 10; // TODO make configurable
+
+		// TODO
+		// this.setInstructions([
+		// 	{
+		// 		command: "enter",
+		// 		purpose: "to jump",
+		// 	},
+		// 	{
+		// 		command: "shift+enter",
+		// 		purpose: "to embed",
+		// 	},
+		// ]);
 	}
 
 	getItems(): BlockSuggestion[] {
@@ -153,13 +167,28 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	}
 
 	getItemText(item: BlockSuggestion): string {
-		return item.content;
+		// TODO make this configurable maybe?
+		return item.content + item.file.path;
 	}
 
-	renderSuggestion(item: FuzzyMatch<BlockSuggestion>, el: HTMLElement) {
-		const suggestionEl = el.createEl("div", { cls: "suggestion-item" });
-		suggestionEl.createEl("div", { text: item.item.content, cls: "suggestion-content" });
-		suggestionEl.createEl("small", { text: item.item.file.path, cls: "suggestion-file" });
+	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement ) {
+		const suggestionEl = el.createEl("div", {
+			cls: "suggestion-item",
+		});
+
+		const contentWithoutId = item.content.replace(`^${item.id}`, "");
+
+		suggestionEl.createEl("div", {
+			text: contentWithoutId,
+			cls: "suggestion-content",
+		});
+
+		// TODO setting for path vs basename
+		const from = item.file.basename;
+		suggestionEl.createEl("small", {
+			text: `${from}#^${item.id}`,
+			cls: "suggestion-file",
+		});
 	}
 
 	onChooseItem(item: BlockSuggestion, evt: MouseEvent | KeyboardEvent) {
