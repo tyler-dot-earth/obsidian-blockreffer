@@ -1,4 +1,4 @@
-import { App, Editor, FuzzyMatch, FuzzySuggestModal, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import { App, Editor, FuzzyMatch, FuzzySuggestModal, MarkdownRenderer, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 
 // TODO Remember to rename these classes and interfaces!
 
@@ -172,22 +172,44 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	}
 
 	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement ) {
-		const suggestionEl = el.createEl("div", {
-			cls: "suggestion-item",
-		});
-
+		// TODO make this optional
 		const contentWithoutId = item.content.replace(`^${item.id}`, "");
 
-		suggestionEl.createEl("div", {
-			text: contentWithoutId,
-			cls: "suggestion-content",
-		});
+		// TODO make this optional
+		function unlinkfy(text: string): string {
+			return text.replace(
+				/\[([^\]]+)\]\([^)]+\)/g,
+				`<span class="suggestion-block-link">$1</span>`
+			);
+		}
+		const sansLink = unlinkfy(contentWithoutId);
 
-		// TODO setting for path vs basename
-		const from = item.file.basename;
-		suggestionEl.createEl("small", {
-			text: `${from}#^${item.id}`,
-			cls: "suggestion-file",
+		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
+			const textDiv = contentDiv.createDiv({
+				// text: sansLink,
+				cls: "suggestion-block-text",
+			});
+			textDiv.innerHTML = sansLink;
+
+			// TODO setting for path vs basename
+			const from = item.file.basename;
+			contentDiv.createDiv({
+				text: `${from}#^${item.id}`,
+				cls: "suggestion-block-file",
+			});
+
+			// TODO maybe use markdownRenderer? doesn't quite look right though..
+			// but alternative is that i handle markdown like `**bold**` i guess? 🤔
+			// OTOH markdown is just readable text too... so maybe not a big deal?
+			//
+			// here's an example anyway:
+			//
+			// const markdownDiv = contentDiv.createDiv({
+			// 	cls: "suggestion-markdown-test",
+			// });
+			// const sourcePath = this.app.workspace.getActiveFile()?.path;
+			// if (!sourcePath) throw new Error("No source path"); // TODO feels wrong
+			// MarkdownRenderer.render(this.app, contentWithoutId, markdownDiv, sourcePath, this.plugin)
 		});
 	}
 
