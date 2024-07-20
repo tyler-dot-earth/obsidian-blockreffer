@@ -193,7 +193,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 			// TODO setting for path vs basename
 			const from = item.file.basename;
-			contentDiv.createDiv({
+			contentDiv.createEl('small', {
 				text: `${from}#^${item.id}`,
 				cls: "suggestion-block-file",
 			});
