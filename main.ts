@@ -248,8 +248,6 @@ class SampleSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl('h1', { text: 'Blockreffer' });
-
 		new Setting(containerEl)
 			.setName("Bugs and feature requests")
 			.setDesc("Encounter an issue or have an idea? Please open an issue on GitHub")
