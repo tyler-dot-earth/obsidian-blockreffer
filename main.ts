@@ -179,20 +179,36 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			.trim(); // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
 
 		// TODO make this optional
-		function unlinkfy(text: string): string {
-			return text.replace(
-				/\[([^\]]+)\]\([^)]+\)/g,
-				`<span class="suggestion-block-link">$1</span>`
-			);
+		function unlinkfy(text: string): DocumentFragment {
+			const fragment = document.createDocumentFragment();
+			let lastIndex = 0;
+			const regex = /\[([^\]]+)\]\([^)]+\)/g;
+			let match;
+
+			while ((match = regex.exec(text)) !== null) {
+				if (match.index > lastIndex) {
+					fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+				}
+				const span = document.createElement('span');
+				span.className = 'suggestion-block-link';
+				span.textContent = match[1];
+				fragment.appendChild(span);
+				lastIndex = regex.lastIndex;
+			}
+
+			if (lastIndex < text.length) {
+				fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+			}
+
+			return fragment;
 		}
 		const sansLink = unlinkfy(contentWithoutId);
 
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
-			const textDiv = contentDiv.createDiv({
+			contentDiv.createDiv({
 				// text: sansLink,
 				cls: "suggestion-block-text",
-			});
-			textDiv.innerHTML = sansLink;
+			}).appendChild(sansLink);
 
 			// TODO setting for path vs basename
 			const from = item.file.basename;
