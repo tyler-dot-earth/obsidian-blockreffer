@@ -92,3 +92,12 @@ Quick starting guide for new plugin devs:
   - eslint will then create a report with suggestions for code improvement by file and line number.
 - If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
   - `eslint .\src\`
+
+---
+
+# Funding
+
+If you found this project helpful, please consider kicking a couple bucks my way:
+
+- [Buy Me a Coffee](https://buymeacoffee.com/tyler.earth)
+- [GitHub Sponsor](https://github.com/sponsors/tyler-dot-earth)
