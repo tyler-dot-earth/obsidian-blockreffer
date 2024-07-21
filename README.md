@@ -99,5 +99,6 @@ Quick starting guide for new plugin devs:
 
 If you found this project helpful, please consider kicking a couple bucks my way:
 
-- [Buy Me a Coffee](https://buymeacoffee.com/tyler.earth)
 - [GitHub Sponsor](https://github.com/sponsors/tyler-dot-earth)
+- [Ko-Fi](https://ko-fi.com/tylerdotearth)
+- [Buy Me a Coffee](https://buymeacoffee.com/tyler.earth)
