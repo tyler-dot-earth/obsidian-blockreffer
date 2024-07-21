@@ -174,7 +174,9 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement ) {
 		// TODO make this optional
-		const contentWithoutId = item.content.replace(`^${item.id}`, "");
+		const contentWithoutId = item.content
+			.replace(`^${item.id}`, "")
+			.trim(); // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
 
 		// TODO make this optional
 		function unlinkfy(text: string): string {
