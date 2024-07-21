@@ -10,7 +10,7 @@
 	},
 	"keywords": [],
 	"author": "tyler.earth",
-	"license": "MIT",
+	"license": "0BSD",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
