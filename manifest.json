@@ -4,7 +4,7 @@
 	"version": "1.3.0",
 	"minAppVersion": "0.15.0",
 	"description": "Search and embed blocks with ^block-references (aka ^block-ids)",
-	"author": "tyler-dot-earth",
+	"author": "tyler.earth",
 	"authorUrl": "https://tyler.earth/",
 	"isDesktopOnly": false,
 	"fundingUrl": {
