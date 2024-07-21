@@ -166,9 +166,10 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		return this.blocks;
 	}
 
+	// fuzzy-searchable content
 	getItemText(item: BlockSuggestion): string {
 		// TODO make this configurable maybe?
-		return item.content + item.file.path;
+		return item.content + item.file.path + item.id;
 	}
 
 	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement ) {
