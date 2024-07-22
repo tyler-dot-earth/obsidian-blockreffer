@@ -1,31 +1,12 @@
-import { App, Editor, FuzzyMatch, FuzzySuggestModal, MarkdownRenderer, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import { App, FuzzyMatch, FuzzySuggestModal, MarkdownView, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 
-// TODO Remember to rename these classes and interfaces!
-
-interface MyPluginSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
-
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
-
+export default class Blockreffer extends Plugin {
 	async onload() {
-		await this.loadSettings();
-
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		// const statusBarItemEl = this.addStatusBarItem();
-		// statusBarItemEl.setText('Status Bar Text');
-
 		this.addCommand({
 			id: 'open-block-search',
 			name: 'Search blocks with references',
 			callback: async () => {
 				// Fetch your blocks here
-				// const blocks: BlockSuggestion[] = await this.fetchBlocks();
 				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(this.app);
 
 				// new BlockSearchModal(this.app, blocks).open();
@@ -43,7 +24,6 @@ export default class MyPlugin extends Plugin {
 			name: 'Embed block from existing reference',
 			callback: async () => {
 				// Fetch your blocks here
-				// const blocks: BlockSuggestion[] = await this.fetchBlocks();
 				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(this.app);
 
 				// new BlockSearchModal(this.app, blocks).open();
@@ -57,29 +37,11 @@ export default class MyPlugin extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		// this.addSettingTab(new SampleSettingTab(this.app, this));
-		this.addSettingTab(new SampleSettingTab({ app: this.app, plugin: this }));
-
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
-
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+		this.addSettingTab(new BlockrefferSettingsTab({ app: this.app, plugin: this }));
 	}
 
 	onunload() {
 
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
 	}
 
 	async getBlocksWithIds(app: App): Promise<BlockSuggestion[]> {
@@ -127,7 +89,7 @@ interface BlockSuggestion {
 type BlockRefAction = "embed" | "open";
 
 class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
-	plugin: MyPlugin;
+	plugin: Blockreffer;
 	blocks: BlockSuggestion[];
 	action: BlockRefAction;
 
@@ -138,7 +100,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		action,
 		}: {
 			app: App;
-			plugin: MyPlugin;
+			plugin: Blockreffer;
 			blocks: BlockSuggestion[];
 			action: BlockRefAction;
 	}) {
@@ -251,10 +213,10 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	}
 }
 
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+class BlockrefferSettingsTab extends PluginSettingTab {
+	plugin: Blockreffer;
 
-	constructor({ app, plugin }: { app: App; plugin: MyPlugin }) {
+	constructor({ app, plugin }: { app: App; plugin: Blockreffer }) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -272,29 +234,5 @@ class SampleSettingTab extends PluginSettingTab {
 					window.open(`https://github.com/tyler-dot-earth/obsidian-blockreffer/issues`);
 				});
 		});
-
-		// containerEl.createEl(
-		//   'small',
-		//   {
-		//     text: 'Created by ',
-		//   }
-		// ).createEl(
-		//     'a',
-		//     {
-		//       text: 'tyler.earth',
-		//       href: 'https://tyler.earth/',
-		//     }
-		//   );
-
-		// new Setting(containerEl)
-		//   .setName('Setting #1')
-		//   .setDesc('It\'s a secret')
-		//   .addText(text => text
-		//     .setPlaceholder('Enter your secret')
-		//     .setValue(this.plugin.settings.mySetting)
-		//     .onChange(async (value) => {
-		//       this.plugin.settings.mySetting = value;
-		//       await this.plugin.saveSettings();
-		// }));
 	}
 }
