@@ -1,24 +1,15 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
-
-.suggestion-content {
+.blockreffer-suggestion-content {
 	display: flex;
 	flex-direction: column;
 	gap: 0.15rem;
 }
 
-.suggestion-block-link {
+.blockreffer-suggestion-block-link {
 	text-decoration: underline;
 	text-decoration-color: var(--text-faint);
 	text-underline-offset: 0.2rem;
 }
 
-.suggestion-block-file {
+.blockreffer-suggestion-block-file {
 	color: var(--text-muted);
 }

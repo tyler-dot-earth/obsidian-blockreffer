@@ -1,4 +1,4 @@
-import { App, FuzzyMatch, FuzzySuggestModal, MarkdownView, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import { App, FuzzyMatch, FuzzySuggestModal, MarkdownView, Plugin, TFile } from 'obsidian';
 
 export default class Blockreffer extends Plugin {
 	async onload() {
@@ -35,13 +35,9 @@ export default class Blockreffer extends Plugin {
 				}).open();
 			}
 		});
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new BlockrefferSettingsTab({ app: this.app, plugin: this }));
 	}
 
 	onunload() {
-
 	}
 
 	async getBlocksWithIds(app: App): Promise<BlockSuggestion[]> {
@@ -152,7 +148,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 					fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
 				}
 				const span = document.createElement('span');
-				span.className = 'suggestion-block-link';
+				span.className = 'blockreffer-suggestion-block-link';
 				span.textContent = match[1];
 				fragment.appendChild(span);
 				lastIndex = regex.lastIndex;
@@ -169,35 +165,20 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
 			contentDiv.createDiv({
 				// text: sansLink,
-				cls: "suggestion-block-text",
+				cls: "blockreffer-suggestion-block-text",
 			}).appendChild(sansLink);
 
 			// TODO setting for path vs basename
 			const from = item.file.basename;
 			contentDiv.createEl('small', {
 				text: `${from}#^${item.id}`,
-				cls: "suggestion-block-file",
+				cls: "blockreffer-suggestion-block-file",
 			});
-
-			// TODO maybe use markdownRenderer? doesn't quite look right though..
-			// but alternative is that i handle markdown like `**bold**` i guess? 🤔
-			// OTOH markdown is just readable text too... so maybe not a big deal?
-			//
-			// here's an example anyway:
-			//
-			// const markdownDiv = contentDiv.createDiv({
-			// 	cls: "suggestion-markdown-test",
-			// });
-			// const sourcePath = this.app.workspace.getActiveFile()?.path;
-			// if (!sourcePath) throw new Error("No source path"); // TODO feels wrong
-			// MarkdownRenderer.render(this.app, contentWithoutId, markdownDiv, sourcePath, this.plugin)
 		});
 	}
 
 	onChooseItem(item: BlockSuggestion, evt: MouseEvent | KeyboardEvent) {
 		if (this.action === "embed") {
-			console.log('embed', { item });
-
 			const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
 				// Embed the block using the ref
@@ -210,29 +191,5 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			this.app.workspace.openLinkText(item.file.path, "", true);
 			// TODO: scroll to the specific block
 		}
-	}
-}
-
-class BlockrefferSettingsTab extends PluginSettingTab {
-	plugin: Blockreffer;
-
-	constructor({ app, plugin }: { app: App; plugin: Blockreffer }) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const { containerEl } = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName("Bugs and feature requests")
-			.setDesc("Encounter an issue or have an idea? Please open an issue on GitHub")
-			.addButton((button) => {
-				button.setButtonText("Open GitHub").onClick(() => {
-					window.open(`https://github.com/tyler-dot-earth/obsidian-blockreffer/issues`);
-				});
-		});
 	}
 }
