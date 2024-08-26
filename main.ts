@@ -1,13 +1,22 @@
-import { App, FuzzyMatch, FuzzySuggestModal, MarkdownView, Plugin, TFile } from 'obsidian';
+import {
+	App,
+	FuzzyMatch,
+	FuzzySuggestModal,
+	MarkdownView,
+	Plugin,
+	TFile,
+} from "obsidian";
 
 export default class Blockreffer extends Plugin {
 	async onload() {
 		this.addCommand({
-			id: 'open-block-search',
-			name: 'Search blocks with references',
+			id: "open-block-search",
+			name: "Search blocks with references",
 			callback: async () => {
 				// Fetch your blocks here
-				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(this.app);
+				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(
+					this.app,
+				);
 
 				// new BlockSearchModal(this.app, blocks).open();
 				new BlockSearchModal({
@@ -16,15 +25,17 @@ export default class Blockreffer extends Plugin {
 					blocks,
 					action: "open",
 				}).open();
-			}
+			},
 		});
 
 		this.addCommand({
-			id: 'embed-block-search',
-			name: 'Embed block from existing reference',
+			id: "embed-block-search",
+			name: "Embed block from existing reference",
 			callback: async () => {
 				// Fetch your blocks here
-				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(this.app);
+				const blocks: BlockSuggestion[] = await this.getBlocksWithIds(
+					this.app,
+				);
 
 				// new BlockSearchModal(this.app, blocks).open();
 				new BlockSearchModal({
@@ -33,12 +44,11 @@ export default class Blockreffer extends Plugin {
 					blocks,
 					action: "embed",
 				}).open();
-			}
+			},
 		});
 	}
 
-	onunload() {
-	}
+	onunload() {}
 
 	async getBlocksWithIds(app: App): Promise<BlockSuggestion[]> {
 		const files = app.vault.getMarkdownFiles();
@@ -48,7 +58,11 @@ export default class Blockreffer extends Plugin {
 			const cache = app.metadataCache.getFileCache(file);
 			if (cache && cache.blocks) {
 				for (const [id, block] of Object.entries(cache.blocks)) {
-				blockRefs.push({ file: file.path, id, position: block.position });
+					blockRefs.push({
+						file: file.path,
+						id,
+						position: block.position,
+					});
 				}
 			}
 		}
@@ -59,14 +73,19 @@ export default class Blockreffer extends Plugin {
 			const cache = app.metadataCache.getFileCache(file);
 			if (cache && cache.blocks) {
 				const fileContent = await app.vault.cachedRead(file);
-				const lines = fileContent.split('\n');
+				const lines = fileContent.split("\n");
 
 				for (const [id, block] of Object.entries(cache.blocks)) {
-					const blockContent = lines.slice(block.position.start.line, block.position.end.line + 1).join('\n');
+					const blockContent = lines
+						.slice(
+							block.position.start.line,
+							block.position.end.line + 1,
+						)
+						.join("\n");
 					blockSuggestions.push({
 						file: file,
 						id: id,
-						content: blockContent.trim()
+						content: blockContent.trim(),
 					});
 				}
 			}
@@ -94,11 +113,11 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		plugin,
 		blocks,
 		action,
-		}: {
-			app: App;
-			plugin: Blockreffer;
-			blocks: BlockSuggestion[];
-			action: BlockRefAction;
+	}: {
+		app: App;
+		plugin: Blockreffer;
+		blocks: BlockSuggestion[];
+		action: BlockRefAction;
 	}) {
 		super(app);
 		this.plugin = plugin;
@@ -130,11 +149,9 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		return item.content + item.file.path + item.id;
 	}
 
-	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement ) {
+	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement) {
 		// TODO make this optional
-		const contentWithoutId = item.content
-			.replace(`^${item.id}`, "")
-			.trim(); // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
+		const contentWithoutId = item.content.replace(`^${item.id}`, "").trim(); // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
 
 		// TODO make this optional
 		function unlinkfy(text: string): DocumentFragment {
@@ -145,17 +162,23 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 			while ((match = regex.exec(text)) !== null) {
 				if (match.index > lastIndex) {
-					fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+					fragment.appendChild(
+						document.createTextNode(
+							text.slice(lastIndex, match.index),
+						),
+					);
 				}
-				const span = document.createElement('span');
-				span.className = 'blockreffer-suggestion-block-link';
+				const span = document.createElement("span");
+				span.className = "blockreffer-suggestion-block-link";
 				span.textContent = match[1];
 				fragment.appendChild(span);
 				lastIndex = regex.lastIndex;
 			}
 
 			if (lastIndex < text.length) {
-				fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+				fragment.appendChild(
+					document.createTextNode(text.slice(lastIndex)),
+				);
 			}
 
 			return fragment;
@@ -163,14 +186,16 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		const sansLink = unlinkfy(contentWithoutId);
 
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
-			contentDiv.createDiv({
-				// text: sansLink,
-				cls: "blockreffer-suggestion-block-text",
-			}).appendChild(sansLink);
+			contentDiv
+				.createDiv({
+					// text: sansLink,
+					cls: "blockreffer-suggestion-block-text",
+				})
+				.appendChild(sansLink);
 
 			// TODO setting for path vs basename
 			const from = item.file.basename;
-			contentDiv.createEl('small', {
+			contentDiv.createEl("small", {
 				text: `${from}#^${item.id}`,
 				cls: "blockreffer-suggestion-block-file",
 			});
@@ -179,10 +204,13 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 	onChooseItem(item: BlockSuggestion, evt: MouseEvent | KeyboardEvent) {
 		if (this.action === "embed") {
-			const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
+			const editor =
+				this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
 				// Embed the block using the ref
-				editor.replaceSelection(`![[${item.file.basename}#^${item.id}]]`);
+				editor.replaceSelection(
+					`![[${item.file.basename}#^${item.id}]]`,
+				);
 			}
 		}
 
