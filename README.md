@@ -14,9 +14,11 @@ Search and embed blocks with `^block-references` aka `^block-refs` aka `^block-i
 
 ## Installation
 
-:information_source: Plugin is not yet published to the community plugin list.
+Like all other plugins, you can install this in Obsidian - `Settings > Plugins > Community plugins > Browse > search for Blockreffer`
 
-Use [BRAT](https://tfthacker.com/BRAT) to install this plugin for now:
+You can also click the install button on Obsidian plugin's search page: https://obsidian.md/plugins?search=blockreffer
+
+Alternatively, use [BRAT](https://tfthacker.com/BRAT) to install beta versions of this plugin:
 1. Install BRAT
 	- Search for "BRAT" in Obsidian's community plugins
 	- This may also work for you: [obsidian://show-plugin?id=obsidian42-brat](obsidian://show-plugin?id=obsidian42-brat)
