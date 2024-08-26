@@ -73,15 +73,12 @@ export default class Blockreffer extends Plugin {
 			const cache = app.metadataCache.getFileCache(file);
 			if (cache && cache.blocks) {
 				const fileContent = await app.vault.cachedRead(file);
-				const lines = fileContent.split("\n");
 
-				for (const [id, block] of Object.entries(cache.blocks)) {
-					const blockContent = lines
-						.slice(
-							block.position.start.line,
-							block.position.end.line + 1,
-						)
-						.join("\n");
+				for (const [id] of Object.entries(cache.blocks)) {
+					const blockContent = fileContent.slice(
+						cache.blocks[id].position.start.offset,
+						cache.blocks[id].position.end.offset,
+					);
 					blockSuggestions.push({
 						file: file,
 						id: id,
