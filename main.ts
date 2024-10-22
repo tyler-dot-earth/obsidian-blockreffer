@@ -15,6 +15,7 @@ export default class Blockreffer extends Plugin {
 
 	async onload() {
 		this.loadSettings();
+
 		this.addCommand({
 			id: "open-block-search",
 			name: "Search blocks with references",
@@ -137,7 +138,9 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		this.blocks = blocks;
 		this.action = action;
 		this.setPlaceholder("Search for ^referenced blocks...");
-		this.limit = 10; // TODO make configurable
+
+
+		this.limit = this.plugin.settings.searchLimit;
 
 		// TODO
 		// this.setInstructions([
