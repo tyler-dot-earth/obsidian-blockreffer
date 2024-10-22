@@ -35,5 +35,43 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 })
             )
+		
+        /* === What to search */
+		new Setting(containerEl)
+			.setName("What to search")
+			.setHeading()
+
+		new Setting(containerEl)
+			.setName("Block content")
+            .setDesc("Search for text inside blocks.")
+			.addToggle(toggle => toggle
+                .setValue(this.plugin.settings.toSearch.content)
+                .onChange(async (value) => {
+                    this.plugin.settings.toSearch.content = value
+                    await this.plugin.saveSettings();
+                })
+            )
+
+		new Setting(containerEl)
+			.setName("File path")
+            .setDesc("Search for file names")
+			.addToggle(toggle => toggle
+                .setValue(this.plugin.settings.toSearch.path)
+                .onChange(async (value) => {
+                    this.plugin.settings.toSearch.path = value
+                    await this.plugin.saveSettings();
+                })
+            )
+
+		new Setting(containerEl)
+			.setName("Block id")
+            .setDesc("Search for ^block-ids")
+			.addToggle(toggle => toggle
+                .setValue(this.plugin.settings.toSearch.id)
+                .onChange(async (value) => {
+                    this.plugin.settings.toSearch.id = value
+                    await this.plugin.saveSettings();
+                })
+            )
 	}
 }
