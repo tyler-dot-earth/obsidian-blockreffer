@@ -7,8 +7,14 @@ import {
 	TFile,
 } from "obsidian";
 
+import { BlockrefferSettings, DEFAULT_SETTINGS } from "settings/settings"
+import { BlockrefferSettingTab } from "settings/settingsTab"
+
 export default class Blockreffer extends Plugin {
+	settings: BlockrefferSettings;
+
 	async onload() {
+		this.loadSettings();
 		this.addCommand({
 			id: "open-block-search",
 			name: "Search blocks with references",
@@ -46,6 +52,8 @@ export default class Blockreffer extends Plugin {
 				}).open();
 			},
 		});
+
+		this.addSettingTab(new BlockrefferSettingTab(this.app, this));
 	}
 
 	onunload() {}
@@ -89,6 +97,14 @@ export default class Blockreffer extends Plugin {
 		}
 
 		return blockSuggestions;
+	}
+
+	async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
 	}
 }
 
