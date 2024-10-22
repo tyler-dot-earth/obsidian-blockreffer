@@ -22,6 +22,17 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setHeading()
 			.setName("Search settings")
+        
+            new Setting(containerEl)
+                .setName("Remove block id from block content")
+                .setDesc("Should the ^block-id text be removed from the block contents in search results (it will still be displayed beneath the block contents).")
+                .addToggle(toggle => toggle
+                    .setValue(this.plugin.settings.removeIdFromContent)
+                    .onChange(async (value) => {
+                        this.plugin.settings.removeIdFromContent = value;
+                        await this.plugin.saveSettings();
+                    })
+                )
 		
 		new Setting(containerEl)
 			.setName("Search limit")
