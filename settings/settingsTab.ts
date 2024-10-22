@@ -46,6 +46,19 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 })
             )
+        
+        new Setting(containerEl)
+            .setName("File name in result")
+            .setDesc("Do you want the names of the files in the search results to displayed as their/full/path.md or just as their name?")
+            .addDropdown(dropdown => dropdown
+                .addOption("base", "File name")
+                .addOption("path", "File path")
+                .setValue(this.plugin.settings.fileName)
+                .onChange(async (value) => {
+                    this.plugin.settings.fileName = value
+                    await this.plugin.saveSettings()
+                })
+            )
 		
         /* === What to search */
 		new Setting(containerEl)

@@ -214,9 +214,10 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 					cls: "blockreffer-suggestion-block-text",
 				})
 				.appendChild(sansLink);
+			const from = this.plugin.settings.fileName == "base"
+				? item.file.basename
+				: item.file.path
 
-			// TODO setting for path vs basename
-			const from = item.file.basename;
 			contentDiv.createEl("small", {
 				text: `${from}#^${item.id}`,
 				cls: "blockreffer-suggestion-block-file",
