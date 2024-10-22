@@ -18,6 +18,33 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 
 		containerEl.empty();
+
+		new Setting(containerEl)
+			.setHeading()
+			.setName("How do you want your link?");
+
+		new Setting(containerEl)
+			.setName('Link format')
+			.setDesc('How your link will be inserted into the document. Use {link} as a placeholder for the actual link.')
+			.addText(text => text
+				.setPlaceholder('!{link}')
+				.setValue(this.plugin.settings.format)
+				.onChange(async (value) => {
+					this.plugin.settings.format = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName("Use selected text as link display text")
+            .setDesc("If true, will use the text you have selected as the display text for the link (the bit that goes after the | symbol).")
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.keepText)
+				.onChange(async (value) => {
+					this.plugin.settings.keepText = value;
+					await this.plugin.saveSettings();
+				})
+			);
+		
         /* === Search settings === */
 		new Setting(containerEl)
 			.setHeading()

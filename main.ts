@@ -234,10 +234,16 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			const editor =
 				this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
+				const selection = editor.getSelection()
+				// Build the block
+				const link = this.plugin.settings.keepText && selection
+					? `[[${item.file.basename}#^${item.id}|${selection}]]`
+					: `[[${item.file.basename}#^${item.id}]]`
+
+				const replacement = this.plugin.settings.format.replace("{link}", link)
+
 				// Embed the block using the ref
-				editor.replaceSelection(
-					`![[${item.file.basename}#^${item.id}]]`,
-				);
+				editor.replaceSelection(replacement);
 			}
 		}
 
