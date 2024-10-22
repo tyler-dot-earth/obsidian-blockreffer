@@ -155,6 +155,20 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		// ]);
 	}
 
+	onOpen() {
+		super.onOpen()
+
+		if (this.plugin.settings.selectedTextAsSearch == false) return
+
+		const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor
+		if (editor) {
+			this.inputEl.value = editor.getSelection()
+			
+			// We need to trigger the input event to make the results update
+			this.inputEl.dispatchEvent(new Event("input"))
+		}
+	}
+
 	getItems(): BlockSuggestion[] {
 		return this.blocks;
 	}

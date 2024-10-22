@@ -73,6 +73,17 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                 )
 		
 		new Setting(containerEl)
+			.setName("Use selected text as initial search")
+            .setDesc("If true, when you open the search box, the text you have selected will already be searched for.")
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.selectedTextAsSearch)
+				.onChange(async (value) => {
+					this.plugin.settings.selectedTextAsSearch = value;
+					await this.plugin.saveSettings();
+				})
+			)
+		
+		new Setting(containerEl)
 			.setName("Search limit")
             .setDesc("The number of search results to display.")
 			.addSlider(slider => slider
