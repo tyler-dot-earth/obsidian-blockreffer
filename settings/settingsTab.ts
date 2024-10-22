@@ -22,6 +22,17 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setHeading()
 			.setName("Search settings")
+
+		new Setting(containerEl)
+			.setName("Parse links")
+            .setDesc("Should markdown links be displayed as just their display text in search results?")
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.parseLinks)
+				.onChange(async (value) => {
+					this.plugin.settings.parseLinks = value;
+					await this.plugin.saveSettings();
+				})
+			)
         
             new Setting(containerEl)
                 .setName("Remove block id from block content")
