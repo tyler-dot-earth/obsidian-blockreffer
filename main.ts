@@ -175,7 +175,6 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			? item.content.replace(`^${item.id}`, "").trim() // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
 			: item.content.trim();
 
-		// TODO make this optional
 		function unlinkfy(text: string): DocumentFragment {
 			const fragment = document.createDocumentFragment();
 			let lastIndex = 0;
@@ -205,15 +204,20 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 			return fragment;
 		}
-		const sansLink = unlinkfy(contentWithoutId);
+
+		const sansLink = unlinkfy(contentWithoutId)
+		const withLink = document.createDocumentFragment()
+				.appendChild(document.createTextNode(contentWithoutId))
+
+		const suggestionBlockText = this.plugin.settings.parseLinks ? sansLink : withLink
 
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
 			contentDiv
 				.createDiv({
-					// text: sansLink,
 					cls: "blockreffer-suggestion-block-text",
 				})
-				.appendChild(sansLink);
+				.appendChild(suggestionBlockText);
+
 			const from = this.plugin.settings.fileName == "base"
 				? item.file.basename
 				: item.file.path
