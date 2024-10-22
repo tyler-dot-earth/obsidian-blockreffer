@@ -158,14 +158,14 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	onOpen() {
 		super.onOpen()
 
-		if (this.plugin.settings.selectedTextAsSearch == false) return
+		if (this.plugin.settings.selectedTextAsSearch == false) return;
 
-		const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor
+		const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 		if (editor) {
-			this.inputEl.value = editor.getSelection()
+			this.inputEl.value = editor.getSelection();
 			
 			// We need to trigger the input event to make the results update
-			this.inputEl.dispatchEvent(new Event("input"))
+			this.inputEl.dispatchEvent(new Event("input"));
 		}
 	}
 
@@ -177,9 +177,9 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	getItemText(item: BlockSuggestion): string {
 		let toSearch = ""
 
-		if (this.plugin.settings.toSearch.content) toSearch += item.content
-		if (this.plugin.settings.toSearch.path   ) toSearch += item.file.path
-		if (this.plugin.settings.toSearch.id     ) toSearch += item.id
+		if (this.plugin.settings.toSearch.content) toSearch += item.content;
+		if (this.plugin.settings.toSearch.path   ) toSearch += item.file.path;
+		if (this.plugin.settings.toSearch.id     ) toSearch += item.id;
 
 		return toSearch;
 	}
@@ -219,11 +219,11 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			return fragment;
 		}
 
-		const sansLink = unlinkfy(contentWithoutId)
+		const sansLink = unlinkfy(contentWithoutId);
 		const withLink = document.createDocumentFragment()
-				.appendChild(document.createTextNode(contentWithoutId))
+				.appendChild(document.createTextNode(contentWithoutId));
 
-		const suggestionBlockText = this.plugin.settings.parseLinks ? sansLink : withLink
+		const suggestionBlockText = this.plugin.settings.parseLinks ? sansLink : withLink;
 
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
 			contentDiv
@@ -234,7 +234,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 			const from = this.plugin.settings.fileName == "base"
 				? item.file.basename
-				: item.file.path
+				: item.file.path;
 
 			contentDiv.createEl("small", {
 				text: `${from}#^${item.id}`,
@@ -248,13 +248,13 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			const editor =
 				this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
-				const selection = editor.getSelection()
+				const selection = editor.getSelection();
 				// Build the block
 				const link = this.plugin.settings.keepText && selection
 					? `[[${item.file.basename}#^${item.id}|${selection}]]`
-					: `[[${item.file.basename}#^${item.id}]]`
+					: `[[${item.file.basename}#^${item.id}]]`;
 
-				const replacement = this.plugin.settings.format.replace("{link}", link)
+				const replacement = this.plugin.settings.format.replace("{link}", link);
 
 				// Embed the block using the ref
 				editor.replaceSelection(replacement);

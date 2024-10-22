@@ -2,9 +2,9 @@ import {
 	PluginSettingTab,
 	Setting,
     App
-} from "obsidian"
+} from "obsidian";
 
-import Blockreffer from "main"
+import Blockreffer from "main";
 
 export class BlockrefferSettingTab extends PluginSettingTab {
 	plugin: Blockreffer;
@@ -48,7 +48,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
         /* === Search settings === */
 		new Setting(containerEl)
 			.setHeading()
-			.setName("Search settings")
+			.setName("Search settings");
 
 		new Setting(containerEl)
 			.setName("Parse links")
@@ -59,7 +59,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 					this.plugin.settings.parseLinks = value;
 					await this.plugin.saveSettings();
 				})
-			)
+			);
         
             new Setting(containerEl)
                 .setName("Remove block id from block content")
@@ -70,7 +70,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                         this.plugin.settings.removeIdFromContent = value;
                         await this.plugin.saveSettings();
                     })
-                )
+                );
 		
 		new Setting(containerEl)
 			.setName("Use selected text as initial search")
@@ -81,7 +81,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 					this.plugin.settings.selectedTextAsSearch = value;
 					await this.plugin.saveSettings();
 				})
-			)
+			);
 		
 		new Setting(containerEl)
 			.setName("Search limit")
@@ -94,7 +94,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     this.plugin.settings.searchLimit = value
                     await this.plugin.saveSettings();
                 })
-            )
+            );
         
         new Setting(containerEl)
             .setName("File name in result")
@@ -107,12 +107,12 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     this.plugin.settings.fileName = value
                     await this.plugin.saveSettings()
                 })
-            )
+            );
 		
         /* === What to search */
 		new Setting(containerEl)
 			.setName("What to search")
-			.setHeading()
+			.setHeading();
 
 		new Setting(containerEl)
 			.setName("Block content")
@@ -123,7 +123,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     this.plugin.settings.toSearch.content = value
                     await this.plugin.saveSettings();
                 })
-            )
+            );
 
 		new Setting(containerEl)
 			.setName("File path")
@@ -134,7 +134,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     this.plugin.settings.toSearch.path = value
                     await this.plugin.saveSettings();
                 })
-            )
+            );
 
 		new Setting(containerEl)
 			.setName("Block id")
@@ -145,6 +145,6 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                     this.plugin.settings.toSearch.id = value
                     await this.plugin.saveSettings();
                 })
-            )
+            );
 	}
 }
