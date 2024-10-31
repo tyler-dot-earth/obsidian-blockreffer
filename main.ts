@@ -254,7 +254,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 					? `[[${item.file.basename}#^${item.id}|${selection}]]`
 					: `[[${item.file.basename}#^${item.id}]]`;
 
-				const replacement = this.plugin.settings.format.replace("{link}", link);
+				const replacement = this.plugin.settings.format.replace("{backlink}", link);
 
 				// Embed the block using the ref
 				editor.replaceSelection(replacement);

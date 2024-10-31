@@ -36,7 +36,7 @@ export interface BlockrefferSettings {
 }
 
 export const DEFAULT_SETTINGS: BlockrefferSettings = {
-	format: '!{link}',
+	format: '!{backlink}',
 	keepText: false,
 	parseLinks: true,
 	selectedTextAsSearch: false,

@@ -7,7 +7,7 @@ import {
 import Blockreffer from "main";
 import { DEFAULT_SETTINGS } from "./settings";
 
-const formatRegex = /!\{link\}/
+const formatRegex = /!\{backlink\}/
 const ERROR_COLOR = "var(--background-modifier-error)"
 
 export class BlockrefferSettingTab extends PluginSettingTab {
@@ -25,16 +25,16 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setHeading()
-			.setName("How do you want your link?");
+			.setName("How do you want your backlink?");
 
 		new Setting(containerEl)
 			.setName('Backlink format')
-			.setDesc('How your backlink will be inserted into the document. Use {link} as a placeholder for the actual backlink.')
+			.setDesc('How your backlink will be inserted into the document. Use {backlink} as a placeholder for the actual backlink.')
 			.addText(text => text
-				.setPlaceholder('!{link}')
+				.setPlaceholder('!{backlink}')
 				.setValue(this.plugin.settings.format)
 				.onChange(async (value) => {
-					// Check if the field contains a !{link}
+					// Check if the field contains a !{backlink}
 					if (formatRegex.test(value)) {
 						text.inputEl.style.borderColor = ""
 					}
@@ -57,8 +57,8 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("Use selected text as link display text")
-            .setDesc("Use selected text as the link alias (the bit that goes after the | symbol).")
+			.setName("Use selected text as backlink display text")
+            .setDesc("Use selected text as the backlink alias (the bit that goes after the | symbol).")
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.keepText)
 				.onChange(async (value) => {
