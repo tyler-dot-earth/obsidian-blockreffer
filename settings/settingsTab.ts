@@ -5,6 +5,10 @@ import {
 } from "obsidian";
 
 import Blockreffer from "main";
+import { DEFAULT_SETTINGS } from "./settings";
+
+const formatRegex = /!\{link\}/
+const ERROR_COLOR = "var(--background-modifier-error)"
 
 export class BlockrefferSettingTab extends PluginSettingTab {
 	plugin: Blockreffer;
@@ -30,9 +34,27 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 				.setPlaceholder('!{link}')
 				.setValue(this.plugin.settings.format)
 				.onChange(async (value) => {
-					this.plugin.settings.format = value;
+					// Check if the field contains a !{link}
+					if (formatRegex.test(value)) {
+						text.inputEl.style.borderColor = ""
+					}
+					else {
+						text.inputEl.style.borderColor = ERROR_COLOR
+					}
+
+					// Check if empty and reset to default if it is
+					if (value === "") this.plugin.settings.format = DEFAULT_SETTINGS.format;
+					else			  this.plugin.settings.format = value;
+
 					await this.plugin.saveSettings();
-				}));
+				})
+				.then((text) => {
+					// Check for invalid format on open
+					if (!formatRegex.test(text.getValue())) {
+						text.inputEl.style.borderColor = ERROR_COLOR
+					}
+				})
+			);
 
 		new Setting(containerEl)
 			.setName("Use selected text as link display text")
