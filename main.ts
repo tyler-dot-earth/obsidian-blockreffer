@@ -177,7 +177,7 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 	getItemText(item: BlockSuggestion): string {
 		let toSearch = ""
 
-		if (this.plugin.settings.toSearch.content) toSearch += item.content;
+		if (this.plugin.settings.toSearch.content) toSearch += item.content.replace(`^${item.id}`, "").trim();
 		if (this.plugin.settings.toSearch.path   ) toSearch += item.file.path;
 		if (this.plugin.settings.toSearch.id     ) toSearch += item.id;
 
