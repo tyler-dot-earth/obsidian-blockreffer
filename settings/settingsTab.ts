@@ -138,7 +138,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Block content")
-            .setDesc("Search for text inside blocks.")
+            .setDesc("Search text inside blocks.")
 			.addToggle(toggle => toggle
                 .setValue(this.plugin.settings.toSearch.content)
                 .onChange(async (value) => {
