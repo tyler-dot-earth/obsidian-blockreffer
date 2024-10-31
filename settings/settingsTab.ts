@@ -125,7 +125,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                 .addOption("base", "File name")
                 .addOption("path", "File path")
                 .setValue(this.plugin.settings.fileName)
-                .onChange(async (value) => {
+                .onChange(async (value: "base" | "path") => {
                     this.plugin.settings.fileName = value
                     await this.plugin.saveSettings()
                 })
