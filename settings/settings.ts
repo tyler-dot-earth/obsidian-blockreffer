@@ -47,5 +47,5 @@ export const DEFAULT_SETTINGS: BlockrefferSettings = {
     },
     searchLimit: 10,
     removeIdFromContent: true,
-    fileName: "base"
+    fileName: "base" as const,
 }
