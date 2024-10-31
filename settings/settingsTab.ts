@@ -28,8 +28,8 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 			.setName("How do you want your link?");
 
 		new Setting(containerEl)
-			.setName('Link format')
-			.setDesc('How your link will be inserted into the document. Use {link} as a placeholder for the actual link.')
+			.setName('Backlink format')
+			.setDesc('How your backlink will be inserted into the document. Use {link} as a placeholder for the actual backlink.')
 			.addText(text => text
 				.setPlaceholder('!{link}')
 				.setValue(this.plugin.settings.format)
