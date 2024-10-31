@@ -98,7 +98,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
         
         new Setting(containerEl)
             .setName("File name in result")
-            .setDesc("Do you want the names of the files in the search results to displayed as their/full/path.md or just as their name?")
+            .setDesc("Show just the file's name or the/full/path.md in search results?")
             .addDropdown(dropdown => dropdown
                 .addOption("base", "File name")
                 .addOption("path", "File path")
