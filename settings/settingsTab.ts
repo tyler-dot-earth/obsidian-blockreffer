@@ -36,7 +36,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Use selected text as link display text")
-            .setDesc("If true, will use the text you have selected as the display text for the link (the bit that goes after the | symbol).")
+            .setDesc("Use selected text as the link alias (the bit that goes after the | symbol).")
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.keepText)
 				.onChange(async (value) => {
