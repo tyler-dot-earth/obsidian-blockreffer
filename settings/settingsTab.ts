@@ -63,7 +63,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
         
             new Setting(containerEl)
                 .setName("Remove block id from block content")
-                .setDesc("Should the ^block-id text be removed from the block contents in search results (it will still be displayed beneath the block contents).")
+                .setDesc("Do not display the ^block-id in search results. It will still be displayed beneath the block content.")
                 .addToggle(toggle => toggle
                     .setValue(this.plugin.settings.removeIdFromContent)
                     .onChange(async (value) => {
