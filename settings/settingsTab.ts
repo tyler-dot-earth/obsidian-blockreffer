@@ -149,7 +149,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("File path")
-            .setDesc("Search for file names")
+            .setDesc("Search file path and name.")
 			.addToggle(toggle => toggle
                 .setValue(this.plugin.settings.toSearch.path)
                 .onChange(async (value) => {
