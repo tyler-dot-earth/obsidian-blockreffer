@@ -109,7 +109,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
                 })
             );
 		
-        /* === What to search */
+        /* === What to search === */
 		new Setting(containerEl)
 			.setName("What to search")
 			.setHeading();
