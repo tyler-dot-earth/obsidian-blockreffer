@@ -74,7 +74,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 		
 		new Setting(containerEl)
 			.setName("Use selected text as initial search")
-            .setDesc("If true, when you open the search box, the text you have selected will already be searched for.")
+            .setDesc("If true, selected text will be used when you open the search box.")
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.selectedTextAsSearch)
 				.onChange(async (value) => {
