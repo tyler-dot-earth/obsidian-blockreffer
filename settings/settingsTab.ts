@@ -160,7 +160,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Block id")
-            .setDesc("Search for ^block-ids")
+            .setDesc("Search ^block-ids.")
 			.addToggle(toggle => toggle
                 .setValue(this.plugin.settings.toSearch.id)
                 .onChange(async (value) => {
