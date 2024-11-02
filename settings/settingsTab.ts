@@ -7,7 +7,7 @@ import {
 import Blockreffer from "main";
 import { DEFAULT_SETTINGS } from "./settings";
 
-const formatRegex = /!\{backlink\}/
+const formatRegex = /\{backlink\}/
 const ERROR_COLOR = "var(--background-modifier-error)"
 
 export class BlockrefferSettingTab extends PluginSettingTab {
@@ -34,7 +34,7 @@ export class BlockrefferSettingTab extends PluginSettingTab {
 				.setPlaceholder('!{backlink}')
 				.setValue(this.plugin.settings.format)
 				.onChange(async (value) => {
-					// Check if the field contains a !{backlink}
+					// Check if the field contains a {backlink}
 					if (formatRegex.test(value)) {
 						text.inputEl.style.borderColor = ""
 					}
