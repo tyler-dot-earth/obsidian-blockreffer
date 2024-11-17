@@ -44,6 +44,11 @@ Yes. Use the `Hotkeys` (core Obsidian plugin) to assign hotkeys to this plugin's
 
 # Contributing
 
+## Contributors
+
+- [tyler.earth](https://github.com/tyler-dot-earth) - plugin author
+- [GuardKenzie](https://github.com/GuardKenzie) - settings
+
 ## First time developing plugins?
 
 Quick starting guide for new plugin devs:
