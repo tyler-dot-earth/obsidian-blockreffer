@@ -7,8 +7,15 @@ import {
 	TFile,
 } from "obsidian";
 
+import { BlockrefferSettings, DEFAULT_SETTINGS } from "settings/settings"
+import { BlockrefferSettingTab } from "settings/settingsTab"
+
 export default class Blockreffer extends Plugin {
+	settings: BlockrefferSettings;
+
 	async onload() {
+		this.loadSettings();
+
 		this.addCommand({
 			id: "open-block-search",
 			name: "Search blocks with references",
@@ -46,6 +53,8 @@ export default class Blockreffer extends Plugin {
 				}).open();
 			},
 		});
+
+		this.addSettingTab(new BlockrefferSettingTab(this.app, this));
 	}
 
 	onunload() {}
@@ -90,6 +99,14 @@ export default class Blockreffer extends Plugin {
 
 		return blockSuggestions;
 	}
+
+	async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
+	}
 }
 
 interface BlockSuggestion {
@@ -121,7 +138,9 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		this.blocks = blocks;
 		this.action = action;
 		this.setPlaceholder("Search for ^referenced blocks...");
-		this.limit = 10; // TODO make configurable
+
+
+		this.limit = this.plugin.settings.searchLimit;
 
 		// TODO
 		// this.setInstructions([
@@ -136,21 +155,40 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 		// ]);
 	}
 
+	onOpen() {
+		super.onOpen()
+
+		if (this.plugin.settings.selectedTextAsSearch == false) return;
+
+		const editor = this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
+		if (editor) {
+			this.inputEl.value = editor.getSelection();
+			
+			// We need to trigger the input event to make the results update
+			this.inputEl.dispatchEvent(new Event("input"));
+		}
+	}
+
 	getItems(): BlockSuggestion[] {
 		return this.blocks;
 	}
 
 	// fuzzy-searchable content
 	getItemText(item: BlockSuggestion): string {
-		// TODO make this configurable maybe?
-		return item.content + item.file.path + item.id;
+		let toSearch = ""
+
+		if (this.plugin.settings.toSearch.content) toSearch += item.content.replace(`^${item.id}`, "").trim();
+		if (this.plugin.settings.toSearch.path   ) toSearch += item.file.path;
+		if (this.plugin.settings.toSearch.id     ) toSearch += item.id;
+
+		return toSearch;
 	}
 
 	renderSuggestion({ item }: FuzzyMatch<BlockSuggestion>, el: HTMLElement) {
-		// TODO make this optional
-		const contentWithoutId = item.content.replace(`^${item.id}`, "").trim(); // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
+		const contentWithoutId = this.plugin.settings.removeIdFromContent
+			? item.content.replace(`^${item.id}`, "").trim() // cases like https://github.com/tyler-dot-earth/obsidian-blockreffer/issues/5
+			: item.content.trim();
 
-		// TODO make this optional
 		function unlinkfy(text: string): DocumentFragment {
 			const fragment = document.createDocumentFragment();
 			let lastIndex = 0;
@@ -180,18 +218,24 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 
 			return fragment;
 		}
+
 		const sansLink = unlinkfy(contentWithoutId);
+		const withLink = document.createDocumentFragment()
+				.appendChild(document.createTextNode(contentWithoutId));
+
+		const suggestionBlockText = this.plugin.settings.parseLinks ? sansLink : withLink;
 
 		el.createDiv({ cls: "suggestion-content" }, (contentDiv) => {
 			contentDiv
 				.createDiv({
-					// text: sansLink,
 					cls: "blockreffer-suggestion-block-text",
 				})
-				.appendChild(sansLink);
+				.appendChild(suggestionBlockText);
 
-			// TODO setting for path vs basename
-			const from = item.file.basename;
+			const from = this.plugin.settings.fileName == "base"
+				? item.file.basename
+				: item.file.path;
+
 			contentDiv.createEl("small", {
 				text: `${from}#^${item.id}`,
 				cls: "blockreffer-suggestion-block-file",
@@ -204,10 +248,16 @@ class BlockSearchModal extends FuzzySuggestModal<BlockSuggestion> {
 			const editor =
 				this.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
 			if (editor) {
+				const selection = editor.getSelection();
+				// Build the block
+				const link = this.plugin.settings.keepText && selection
+					? `[[${item.file.basename}#^${item.id}|${selection}]]`
+					: `[[${item.file.basename}#^${item.id}]]`;
+
+				const replacement = this.plugin.settings.format.replace("{backlink}", link);
+
 				// Embed the block using the ref
-				editor.replaceSelection(
-					`![[${item.file.basename}#^${item.id}]]`,
-				);
+				editor.replaceSelection(replacement);
 			}
 		}
 
